@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f3f0e8" />
+    <meta
+      name="description"
+      content="Ten little invitations to play. An independent collection of interactive canvas experiments inspired by Jongmin Kim’s Form Follows Function."
+    />
+    <title>Form Follows Function — An Interactive Study</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23ed5935'/%3E%3Cpath d='M10 23V9h12v3h-8v3h6v3h-6v5z' fill='%23f3f0e8'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./script.js"></script>
+  </head>
+  <body>
+    <main id="playground" class="playground">
+      <header class="masthead">
+        <a class="wordmark" href="./" aria-label="Form Follows Function home"
+          ><span>FORM FOLLOWS</span
+          ><span>FUNCTION<span class="wordmark-dot">*</span></span></a
+        >
+        <div class="masthead-right">
+          <span class="edition"
+            >AN INTERACTIVE STUDY<br />CODE, MOTION &amp; A LITTLE
+            CURIOSITY</span
+          ><a class="portfolio-link" href="../index.html"
+            >PORTFOLIO <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </header>
+
+      <div class="intro" aria-hidden="true">
+        <p class="micro-label">
+          <span class="live-dot"></span> A COLLECTION OF HAPPY ACCIDENTS
+        </p>
+        <h1>Ideas, set <em>in motion.</em></h1>
+        <p>Ten little invitations to play. Pick one. See what happens.</p>
+      </div>
+
+      <section
+        id="wheel-stage"
+        class="wheel-stage"
+        aria-label="Interactive poster wheel. Drag, scroll, or use the left and right arrow keys. Press Enter to open."
+        tabindex="0"
+      >
+        <div class="wheel-orbit" aria-hidden="true"></div>
+        <div id="poster-wheel" class="poster-wheel"></div>
+      </section>
+
+      <footer class="wheel-footer">
+        <div class="gesture-hint">
+          <svg viewBox="0 0 66 18" aria-hidden="true">
+            <path d="M1 9h64M7 3 1 9l6 6m52-12 6 6-6 6" /></svg
+          ><span>DRAG OR SCROLL<br />TO FIND YOUR NEXT PLAY</span>
+        </div>
+        <div class="selection">
+          <p id="selection-category" class="micro-label">
+            01 / 10 — NATURE &amp; CODE
+          </p>
+          <h2 id="selection-title">Plant Trees</h2>
+          <p id="selection-description">A small gesture. A whole new world.</p>
+          <div
+            id="wheel-progress"
+            class="wheel-progress"
+            aria-hidden="true"
+          ></div>
+        </div>
+        <div class="wheel-controls">
+          <div>
+            <button
+              id="previous-poster"
+              type="button"
+              aria-label="Previous poster"
+            >
+              ←</button
+            ><button id="next-poster" type="button" aria-label="Next poster">
+              →
+            </button>
+          </div>
+          <span>EXPLORE THE UNEXPECTED</span>
+        </div>
+      </footer>
+      <span class="homage-credit"
+        >A HOMAGE TO
+        <a
+          href="https://fff.cmiscm.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >JONGMIN KIM’S FFF ↗</a
+        ></span
+      >
+      <p id="wheel-announcement" class="sr-only" aria-live="polite"></p>
+    </main>
+
+    <section
+      id="experiment-view"
+      class="experiment-view"
+      aria-label="Interactive canvas experiment"
+      aria-modal="true"
+      role="dialog"
+      hidden
+    >
+      <canvas
+        id="experiment-canvas"
+        aria-label="Interactive artwork. See the instructions below."
+      ></canvas>
+      <header class="experiment-header">
+        <button
+          id="back-button"
+          class="back-button"
+          type="button"
+          aria-label="Back to poster wheel"
+        >
+          <span class="back-disc" aria-hidden="true">↖</span
+          ><span class="back-label">BACK TO THE WHEEL</span>
+        </button>
+        <div class="experiment-label">
+          <span id="experiment-number">01 / 10</span>
+          <h2 id="experiment-title">Plant Trees</h2>
+        </div>
+        <span class="experiment-medium"
+          >HTML5 CANVAS<br />AN INTERACTIVE STUDY</span
+        >
+      </header>
+      <div class="experiment-instruction">
+        <span class="instruction-dot" aria-hidden="true"></span>
+        <p id="experiment-instruction">
+          Click to plant. Drag to grow a forest. Move to make wind.
+        </p>
+        <span class="escape-hint">ESC TO RETURN</span>
+      </div>
+    </section>
+    <div
+      id="transition-layer"
+      class="transition-layer"
+      aria-hidden="true"
+    ></div>
+    <noscript
+      ><p class="no-script">
+        This playground needs JavaScript to move. Please enable it, or
+        <a href="../index.html">visit the portfolio</a>.
+      </p></noscript
+    >
+  </body>
+</html>
