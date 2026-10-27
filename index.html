@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="프로필, 경력과 프로젝트를 소개하는 포트폴리오입니다." />
+    <meta name="theme-color" content="#f4f6fa" />
+    <title>PORTFOLIO</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M11 24V8h7a5 5 0 0 1 0 10h-3v6zm4-10h3a1 1 0 0 0 0-2h-3z' fill='white'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="icon-user" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0H5Z" /></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm8 8 8-5V7l-8 5-8-5v1l8 5Z" /></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24"><path d="m6.6 2 4 5-2.3 2.5a15.2 15.2 0 0 0 6.2 6.2L17 13.4l5 4-.9 3.4a2 2 0 0 1-2.2 1.4A21.5 21.5 0 0 1 1.8 5.1 2 2 0 0 1 3.2 2.9L6.6 2Z" /></symbol>
+      <symbol id="icon-location" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" /></symbol>
+      <symbol id="icon-education" viewBox="0 0 24 24"><path d="M12 3 1 8l11 5 9-4.1V16h2V8L12 3Zm-7 9v6c4.2 3.2 9.8 3.2 14 0v-6l-7 3.2L5 12Z" /></symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3L22 9.4l-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3L7 14.3 2 9.4l6.9-1.1L12 2Z" /></symbol>
+      <symbol id="icon-briefcase" viewBox="0 0 24 24"><path d="M9 3h6a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v4h-9v-2h-2v2H2V9a2 2 0 0 1 2-2h3V5a2 2 0 0 1 2-2Zm0 4h6V5H9v2ZM2 15h9v2h2v-2h9v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z" /></symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></symbol>
+      <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" /><circle cx="8" cy="8" r="1.5" /><path d="m3 17 5-5 4 4 3-3 6 6" /></symbol>
+    </svg>
+
+    <main class="page-shell">
+      <div class="page-feedback">
+        <p id="page-status" class="status-message" role="status" hidden></p>
+        <button id="reload-button" class="retry-button" type="button" hidden>다시 불러오기</button>
+      </div>
+
+      <section id="portfolio" class="portfolio-sheet" aria-label="프로필과 포트폴리오" aria-busy="true">
+        <aside class="about-panel" aria-labelledby="about-heading">
+          <div class="profile-summary">
+            <h2 id="about-heading" class="eyebrow about-heading">ABOUT ME</h2>
+            <div class="profile-photo-frame">
+              <img id="profile-photo" class="profile-photo" alt="프로필 사진" decoding="async" hidden />
+              <div id="profile-photo-placeholder" class="profile-photo-placeholder">
+                <svg viewBox="0 0 160 200" aria-hidden="true"><circle cx="80" cy="75" r="30" /><path d="M22 188v-18a58 58 0 0 1 116 0v18Z" /></svg>
+                <span>프로필 사진 준비 중</span>
+              </div>
+            </div>
+            <h1 id="profile-name" class="profile-name">불러오는 중</h1>
+            <p id="profile-title" class="profile-title">—</p>
+            <p id="profile-career-badge" class="career-badge">—</p>
+          </div>
+
+          <dl class="contact-list">
+            <div class="contact-row">
+              <dt><span class="contact-icon"><svg aria-hidden="true"><use href="#icon-user" /></svg></span><span class="contact-label">이름</span></dt>
+              <dd id="profile-contact-name">—</dd>
+            </div>
+            <div class="contact-row">
+              <dt><span class="contact-icon"><svg aria-hidden="true"><use href="#icon-mail" /></svg></span><span class="contact-label">이메일</span></dt>
+              <dd><a id="profile-email">—</a></dd>
+            </div>
+            <div class="contact-row">
+              <dt><span class="contact-icon"><svg aria-hidden="true"><use href="#icon-phone" /></svg></span><span class="contact-label">연락처</span></dt>
+              <dd><a id="profile-phone">—</a></dd>
+            </div>
+            <div class="contact-row">
+              <dt><span class="contact-icon"><svg aria-hidden="true"><use href="#icon-location" /></svg></span><span class="contact-label">위치</span></dt>
+              <dd id="profile-location">—</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <div class="portfolio-content">
+          <div>
+            <header class="introduction">
+              <h2 class="portfolio-heading">PORTFOLIO</h2>
+              <h3 id="profile-headline" class="profile-headline">소개를 불러오는 중입니다.</h3>
+              <p id="profile-intro" class="profile-intro"></p>
+            </header>
+
+            <div class="info-grid">
+              <section class="info-section" aria-labelledby="education-heading">
+                <h3 id="education-heading" class="info-heading"><svg aria-hidden="true"><use href="#icon-education" /></svg>EDUCATION</h3>
+                <div id="profile-education" class="info-content">—</div>
+              </section>
+              <section class="info-section" aria-labelledby="skills-heading">
+                <h3 id="skills-heading" class="info-heading"><svg aria-hidden="true"><use href="#icon-star" /></svg>SKILLS &amp; TOOLS</h3>
+                <div id="profile-skills" class="info-content skills-list">—</div>
+              </section>
+              <section class="info-section" aria-labelledby="experience-heading">
+                <h3 id="experience-heading" class="info-heading"><svg aria-hidden="true"><use href="#icon-briefcase" /></svg>EXPERIENCE</h3>
+                <div id="profile-experience" class="info-content">—</div>
+              </section>
+            </div>
+          </div>
+
+          <section class="highlights-panel" aria-labelledby="highlights-heading">
+            <div class="section-heading-row">
+              <h3 id="highlights-heading" class="eyebrow">PORTFOLIO HIGHLIGHTS</h3>
+              <p class="section-hint">카드를 누르면 프로젝트 파일을 볼 수 있습니다</p>
+            </div>
+            <p id="project-status" class="status-message" role="status">프로젝트를 불러오고 있습니다.</p>
+            <div id="projects-grid" class="projects-grid"></div>
+          </section>
+
+          <blockquote id="profile-quote" class="profile-quote"></blockquote>
+        </div>
+      </section>
+
+      <section class="guestbook-panel" aria-labelledby="guestbook-heading">
+        <div class="section-heading-row guestbook-heading-row">
+          <div>
+            <h2 id="guestbook-heading" class="guestbook-heading"><span class="blue-marker"></span>GUESTBOOK <span>방명록</span></h2>
+            <p class="guestbook-intro">들러주신 흔적을 한마디 남겨 주세요.</p>
+          </div>
+          <span class="guestbook-note">최신 글부터 보여 드려요</span>
+        </div>
+
+        <form id="guestbook-form" class="guestbook-form">
+          <div class="nickname-field">
+            <label for="guestbook-nickname">별명</label>
+            <input id="guestbook-nickname" name="nickname" type="text" placeholder="별명 (20자 이내)" minlength="1" maxlength="20" autocomplete="nickname" required />
+          </div>
+          <div class="message-field">
+            <label for="guestbook-message">한마디</label>
+            <textarea id="guestbook-message" name="message" rows="2" placeholder="따뜻한 한마디를 남겨 주세요. (200자 이내)" minlength="1" maxlength="200" required></textarea>
+          </div>
+          <button id="guestbook-submit" class="primary-button" type="button">방명록 남기기 <span aria-hidden="true">↗</span></button>
+        </form>
+        <p id="guestbook-status" class="status-message" role="status">방명록을 불러오고 있습니다.</p>
+        <ul id="guestbook-list" class="guestbook-list" aria-label="최신순 방명록"></ul>
+      </section>
+      <noscript><p class="noscript-notice">포트폴리오와 방명록을 보려면 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+    </main>
+
+    <template id="project-template">
+      <article class="project-card">
+        <a class="project-link" target="_blank" rel="noopener noreferrer">
+          <div class="browser-preview">
+            <div class="browser-toolbar" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="thumbnail-content">
+              <img class="project-image" alt="" loading="lazy" decoding="async" hidden />
+              <div class="thumbnail-placeholder"><svg aria-hidden="true"><use href="#icon-image" /></svg><span>이미지 준비 중</span></div>
+            </div>
+          </div>
+          <p class="project-category"></p>
+          <h4 class="project-title"></h4>
+          <p class="project-description"></p>
+          <div class="project-tags"></div>
+        </a>
+        <div class="project-footer">
+          <button class="like-button" type="button" aria-pressed="false" aria-label="좋아요"><svg aria-hidden="true"><use href="#icon-heart" /></svg><span class="like-count">0</span></button>
+          <span class="project-file-label"></span>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>
