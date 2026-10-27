@@ -22,6 +22,8 @@
     guestbookSubmit: $('#guestbook-submit'),
     guestbookStatus: $('#guestbook-status'),
     guestbookList: $('#guestbook-list'),
+    deleteTestButton: $('#guestbook-delete-test-button'),
+    deleteTestResult: $('#guestbook-delete-test-result'),
   };
 
   const state = {
@@ -485,6 +487,110 @@
     }
   }
 
+  // 임시 시험: 관리자 토큰 없이 공개 키만으로 최신 글 한 줄의 삭제를 요청합니다.
+  async function testGuestbookDelete() {
+    if (elements.deleteTestButton.disabled) return;
+    elements.deleteTestButton.disabled = true;
+    elements.deleteTestButton.setAttribute('aria-busy', 'true');
+    elements.deleteTestResult.hidden = false;
+    elements.deleteTestResult.textContent = '최신 방명록 글을 확인하고 있습니다.';
+    let phase = '최신 글 조회';
+    let targetId = '';
+
+    async function send(query, method = 'GET') {
+      const url = new URL(`${SUPABASE_URL}/rest/v1/resume_guestbook`);
+      url.search = new URLSearchParams(query).toString();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: { apikey: SUPABASE_PUBLIC_KEY, Prefer: 'return=representation,count=exact' },
+          credentials: 'omit',
+          cache: 'no-store',
+          signal: controller.signal,
+        });
+        const raw = await response.text();
+        let data = null;
+        try { data = JSON.parse(raw); } catch { /* 응답 원문은 그대로 표시합니다. */ }
+        return { response, raw, data };
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function report(result, reason, count, exchange = null) {
+      const lines = [`결과: ${result}`, `실패 이유: ${reason || '없음'}`, `지워진 줄 수: ${count}`];
+      if (targetId) lines.push(`삭제 대상 ID: ${targetId}`);
+      if (exchange) {
+        lines.push(`요청 단계: ${phase}`, `HTTP: ${exchange.response.status} ${exchange.response.statusText}`);
+        lines.push(`Content-Range: ${exchange.response.headers.get('Content-Range') || '(없음)'}`);
+        lines.push('', '응답 원문:', exchange.raw || '(응답 본문 없음)');
+      }
+      elements.deleteTestResult.textContent = lines.join('\n');
+    }
+
+    function failureReason(exchange) {
+      const data = exchange.data;
+      if (data && !Array.isArray(data) && typeof data === 'object') {
+        return ['code', 'message', 'error', 'error_description', 'details', 'hint']
+          .filter((key) => data[key] != null && data[key] !== '')
+          .map((key) => `${key}: ${data[key]}`).join('\n') || exchange.raw;
+      }
+      return exchange.raw || exchange.response.statusText || '서버가 요청을 거절했습니다.';
+    }
+
+    try {
+      const latest = await send({ select: 'id', order: 'created_at.desc,id.desc', limit: '1' });
+      if (!latest.response.ok) {
+        report('실패', failureReason(latest), '0 (삭제 요청을 보내지 않음)', latest);
+        return;
+      }
+      if (!Array.isArray(latest.data)) {
+        report('실패', '최신 글의 번호를 읽지 못했습니다.', '0 (삭제 요청을 보내지 않음)', latest);
+        return;
+      }
+      if (!latest.data.length) {
+        report('실행 안 함', '지울 방명록 글이 없습니다.', 0, latest);
+        return;
+      }
+      const id = latest.data[0].id;
+      if (!/^[1-9]\d*$/.test(String(id)) || (typeof id === 'number' && !Number.isSafeInteger(id))) {
+        report('실패', '삭제할 글의 정확한 번호를 확인하지 못했습니다.', '0 (삭제 요청을 보내지 않음)', latest);
+        return;
+      }
+      targetId = String(id);
+      if (!window.confirm(`공개 키로 최신 방명록 글(번호 ${targetId})의 삭제를 시험할까요? 권한이 허용되면 실제로 삭제됩니다.`)) {
+        report('취소', '확인 창에서 취소했습니다.', '0 (삭제 요청을 보내지 않음)');
+        return;
+      }
+      phase = '공개 키로 삭제';
+      elements.deleteTestResult.textContent = '공개 키로 삭제 요청을 보내고 있습니다.';
+      const deletion = await send({ id: `eq.${targetId}`, select: 'id' }, 'DELETE');
+      if (!deletion.response.ok) {
+        report('실패', failureReason(deletion), deletion.response.status >= 500 ? '확인 불가' : 0, deletion);
+        return;
+      }
+      const headerCount = (deletion.response.headers.get('Content-Range') || '').match(/\/(\d+)$/);
+      const count = Array.isArray(deletion.data) ? deletion.data.length : headerCount ? Number(headerCount[1]) : null;
+      if (count === null) {
+        report('확인 불가', '삭제 요청은 처리됐지만 지워진 줄 수를 확인할 응답이 없습니다.', '확인 불가', deletion);
+      } else if (count === 0) {
+        report('실패 (삭제되지 않음)', '삭제된 줄이 없습니다. 접근 규칙으로 차단되었거나 글이 이미 없어졌을 수 있습니다.', 0, deletion);
+      } else {
+        report('성공', '', count, deletion);
+        state.guestbookRevision += 1;
+        try { await loadGuestbook(); } catch { /* 삭제 응답은 그대로 유지합니다. */ }
+      }
+    } catch (error) {
+      const reason = error.name === 'AbortError' ? '요청 시간이 초과되었습니다.' : String(error.message || error);
+      report('실패', reason, phase === '공개 키로 삭제' ? '확인 불가 (응답을 받지 못함)' : '0 (삭제 요청을 보내지 않음)');
+    } finally {
+      elements.deleteTestButton.disabled = false;
+      elements.deleteTestButton.setAttribute('aria-busy', 'false');
+    }
+  }
+
   async function refreshSection(name, action) {
     try {
       await action();
@@ -525,6 +631,7 @@
   }
 
   elements.guestbookSubmit.addEventListener('click', submitGuestbook);
+  elements.deleteTestButton.addEventListener('click', testGuestbookDelete);
   elements.guestbookForm.addEventListener('submit', (event) => {
     event.preventDefault();
     submitGuestbook();

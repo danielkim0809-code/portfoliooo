@@ -124,6 +124,8 @@ h1, h2, h3, h4, p, blockquote, dl, dd { margin: 0; }
 .status-message.is-error, .status-message[data-state="error"] { color: #b45309; }
 .guestbook-list { display: grid; margin: 20px 0 0; padding: 0; list-style: none; }
 .guestbook-empty { padding: 22px 0 6px; border-top: 1px solid #edf0f5; color: #94a3b8; font-size: 12px; text-align: center; }
+.guestbook-delete-test { margin-top: 20px; padding-top: 16px; border-top: 1px solid #edf0f5; }
+.guestbook-delete-test-result { margin: 12px 0 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #f8fafc; color: #475569; font: 12px/1.8 monospace; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
 .guestbook-entry { padding: 18px 0; border-top: 1px solid #edf0f5; }
 .guestbook-entry-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
 .guestbook-entry-name, .guestbook-nickname { color: #334155; font-size: 12px; font-weight: 750; }
