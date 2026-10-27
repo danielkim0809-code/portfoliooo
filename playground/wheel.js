@@ -117,18 +117,31 @@ export class PosterWheel {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.cardHeight = Math.min(
-      this.height * 0.48,
-      410,
-      this.width < 700 ? this.width * 0.91 : 430,
+      this.height * 0.42,
+      360,
+      this.width < 700 ? this.width * 0.82 : 430,
     );
     this.cardWidth = this.cardHeight / 1.43;
     this.centerY = this.height * (this.height < 600 ? 0.55 : 0.57);
     this.pivotY = this.height * 1.95;
     this.radius = this.pivotY - this.centerY;
-    this.step = (this.cardWidth * 0.86) / this.radius;
+    // Reserve space at the inner corners, including the maximum speed tilt.
+    const tilt = (0.25 * 7 * Math.PI) / 180;
+    const envelopeWidth =
+      this.cardWidth * Math.cos(tilt) + this.cardHeight * Math.sin(tilt);
+    const envelopeHeight =
+      this.cardHeight * Math.cos(tilt) + this.cardWidth * Math.sin(tilt);
+    const innerDiameter = 2 * this.radius - envelopeHeight;
+    const gap = this.width < 700 ? 16 : 24;
+    this.step =
+      2 *
+      (Math.atan2(envelopeWidth, innerDiameter) +
+        Math.asin(gap / Math.hypot(innerDiameter, envelopeWidth)));
+    this.dragStride = this.radius * this.step;
     for (const card of this.cards) {
       card.style.width = `${this.cardWidth}px`;
       card.style.height = `${this.cardHeight}px`;
+      card.style.setProperty("--card-scale", String(this.cardWidth / 286));
     }
     this.stage.style.setProperty("--orbit-size", `${this.radius * 2}px`);
     this.stage.style.setProperty(
@@ -156,13 +169,17 @@ export class PosterWheel {
     this.cards.forEach((card, index) => {
       const pose = this.pose(index),
         visible =
+          Math.abs(pose.relative) < 3.6 &&
           Math.abs(pose.x - this.width / 2) <
-          this.width / 2 + this.cardWidth * 1.2;
+            this.width / 2 + this.cardWidth * 1.2;
       card.style.transform = `translate3d(${pose.x - this.cardWidth / 2}px,${pose.y - this.cardHeight / 2}px,0) rotate(${pose.angle}deg) scale(${pose.scale})`;
       card.style.zIndex = String(
         100 - Math.round(Math.abs(pose.relative) * 10),
       );
       card.style.visibility = visible ? "visible" : "hidden";
+      card.style.opacity = String(
+        clamp((3.6 - Math.abs(pose.relative)) / 0.5, 0, 1),
+      );
       card.tabIndex = index === selected ? 0 : -1;
       card.classList.toggle("is-current", index === selected);
       card.setAttribute("aria-current", index === selected ? "true" : "false");
@@ -223,7 +240,7 @@ export class PosterWheel {
         event.clientY - this.pointer.startY,
       );
     this.pointer.distance = Math.max(this.pointer.distance, distance);
-    const delta = -dx / (this.cardWidth * 0.86);
+    const delta = -dx / this.dragStride;
     this.physics.position += delta;
     this.physics.velocity =
       this.physics.velocity * 0.38 +

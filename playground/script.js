@@ -90,7 +90,7 @@ export class Playground {
     const data = POSTERS[index];
     this.title.textContent = data.title;
     this.description.textContent = data.description;
-    this.category.textContent = `${String(index + 1).padStart(2, "0")} / 10 — ${data.category}`;
+    this.category.textContent = `${String(index + 1).padStart(2, "0")} / ${String(POSTERS.length).padStart(2, "0")} — ${data.category}`;
     [...this.progress.children].forEach((item, i) =>
       item.classList.toggle("is-current", i === index),
     );
@@ -143,6 +143,7 @@ export class Playground {
     cover.className = `${source.className} transition-poster`;
     cover.style.cssText = source.style.cssText;
     cover.style.visibility = "visible";
+    cover.style.opacity = "1";
     cover.style.transform = "none";
     cover.style.zIndex = "20";
     cover.innerHTML = source.innerHTML;
@@ -196,7 +197,7 @@ export class Playground {
     this.view.style.visibility = "hidden";
     this.view.hidden = false;
     document.querySelector("#experiment-number").textContent =
-      `${String(index + 1).padStart(2, "0")} / 10 — ${data.category}`;
+      `${String(index + 1).padStart(2, "0")} / ${String(POSTERS.length).padStart(2, "0")} — ${data.category}`;
     document.querySelector("#experiment-title").textContent = data.title;
     document.querySelector("#experiment-instruction").textContent =
       data.instruction;

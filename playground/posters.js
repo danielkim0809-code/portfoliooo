@@ -107,33 +107,6 @@ export const POSTERS = [
     seed: 83,
     instruction: "Sweep from side to side. Drag your own path through the fog.",
   },
-  {
-    title: "Wind Studies",
-    lines: "Wind\nStudies",
-    category: "A STUDY IN SMALL MOVEMENTS",
-    description: "Nothing is ever really standing still.",
-    kind: "trees",
-    bg: "#1e5148",
-    ink: "#d5e7b7",
-    accent: "#83b894",
-    serif: true,
-    seed: 97,
-    instruction:
-      "Click to plant. Move slowly, then quickly. Give the branches a breeze.",
-  },
-  {
-    title: "Liquid Ground",
-    lines: "LIQUID\nGROUND",
-    category: "WAVES IN SOLID THINGS",
-    description: "The ground has a rhythm of its own.",
-    kind: "hills",
-    bg: "#bfdae7",
-    ink: "#dd5b41",
-    accent: "#36628b",
-    seed: 103,
-    instruction:
-      "Click to add a rolling object. Follow the rhythm of the landscape.",
-  },
 ];
 
 export const mod = (n, length) => ((n % length) + length) % length;
