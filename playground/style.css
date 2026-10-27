@@ -209,7 +209,7 @@ button {
   inset: 0;
   display: flex;
   flex-direction: column;
-  padding: calc(20px * var(--card-scale, 1));
+  padding: 20px;
   overflow: hidden;
   pointer-events: none;
 }
@@ -217,37 +217,36 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  font-size: calc(6px * var(--card-scale, 1));
-  letter-spacing: calc(1.1px * var(--card-scale, 1));
+  font-size: 6px;
+  letter-spacing: 1.1px;
   font-weight: 700;
   line-height: 1.5;
 }
 .poster-topline .poster-series {
-  max-width: calc(85px * var(--card-scale, 1));
+  max-width: 85px;
   text-align: right;
 }
 .poster-title {
   z-index: 2;
-  margin-top: calc(18px * var(--card-scale, 1));
-  font-size: calc(35px * var(--card-scale, 1));
+  margin-top: 18px;
+  font-size: 35px;
   line-height: 0.95;
   font-weight: 900;
-  letter-spacing: calc(-1.5px * var(--card-scale, 1));
+  letter-spacing: -1.5px;
   white-space: pre-line;
 }
 .poster.is-serif .poster-title {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: calc(39px * var(--card-scale, 1));
+  font-size: 39px;
   font-weight: 400;
-  letter-spacing: calc(-1.8px * var(--card-scale, 1));
+  letter-spacing: -1.8px;
 }
 .poster-art {
   position: absolute;
   left: 0;
-  top: 34%;
+  top: 25%;
   width: 100%;
-  height: 46%;
-  object-fit: contain;
+  height: 60%;
   pointer-events: none;
 }
 .poster-bottomline {
@@ -259,16 +258,16 @@ button {
 }
 .poster-number {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: calc(49px * var(--card-scale, 1));
+  font-size: 49px;
   line-height: 0.8;
-  letter-spacing: calc(-2px * var(--card-scale, 1));
+  letter-spacing: -2px;
 }
 .poster-category {
-  max-width: calc(105px * var(--card-scale, 1));
+  max-width: 105px;
   text-align: right;
-  font-size: calc(6px * var(--card-scale, 1));
+  font-size: 6px;
   font-weight: 600;
-  letter-spacing: calc(1px * var(--card-scale, 1));
+  letter-spacing: 1px;
   line-height: 1.6;
 }
 .poster-open-mark {
@@ -654,6 +653,25 @@ button {
   .homage-credit {
     display: none;
   }
+  .poster-inner {
+    padding: 18px;
+  }
+  .poster-title {
+    font-size: 32px;
+  }
+  .poster.is-serif .poster-title {
+    font-size: 36px;
+  }
+  .poster-number {
+    font-size: 43px;
+  }
+  .poster-category {
+    font-size: 5px;
+    max-width: 86px;
+  }
+  .poster-topline {
+    font-size: 5px;
+  }
   .experiment-header {
     top: max(20px, env(safe-area-inset-top));
     left: 20px;
@@ -730,6 +748,22 @@ button {
   }
   .experiment-instruction {
     bottom: 17px;
+  }
+  .poster-title {
+    font-size: 26px;
+  }
+  .poster.is-serif .poster-title {
+    font-size: 29px;
+  }
+  .poster-number {
+    font-size: 34px;
+  }
+  .poster-inner {
+    padding: 15px;
+  }
+  .poster-topline,
+  .poster-category {
+    font-size: 5px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
