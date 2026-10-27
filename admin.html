@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="포트폴리오의 프로필, 프로젝트와 방명록을 관리합니다." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f4f6fa" />
+    <title>관리자 · PORTFOLIO</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M11 24V8h7a5 5 0 0 1 0 10h-3v6zm4-10h3a1 1 0 0 0 0-2h-3z' fill='white'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./admin.js" defer></script>
+  </head>
+  <body class="admin-page">
+    <main class="page-shell admin-shell">
+      <header class="admin-header">
+        <div class="admin-brand"><span class="admin-brand-mark" aria-hidden="true">P</span><span>PORTFOLIO <span class="admin-brand-label">ADMIN</span></span></div>
+        <div class="admin-header-actions">
+          <span id="session-label" class="admin-session-label"></span>
+          <a class="admin-visit-link" href="./index.html">방문자 화면 보기 <span aria-hidden="true">↗</span></a>
+          <button id="logout-button" class="admin-button admin-button-secondary admin-button-small" type="button" hidden>로그아웃</button>
+        </div>
+      </header>
+
+      <section id="auth-panel" class="admin-auth-card" aria-labelledby="login-heading">
+        <div class="admin-auth-intro">
+          <p class="admin-overline">YOUR PORTFOLIO, YOUR STORY</p>
+          <h1 id="login-heading">포트폴리오<br />관리자 페이지</h1>
+          <p>프로필과 프로젝트를 가꾸고,<br />방문자가 남긴 마음을 확인하세요.</p>
+          <div class="admin-auth-decoration" aria-hidden="true"><div class="admin-decoration-toolbar"><i></i><i></i><i></i></div><div class="admin-decoration-content"><span></span><div><i></i><i></i><i></i></div></div></div>
+          <span class="admin-auth-caption">ABOUT ME &amp; PORTFOLIO</span>
+        </div>
+        <div class="admin-auth-form-panel">
+          <p class="admin-overline">WELCOME BACK</p>
+          <h2>관리자 로그인</h2>
+          <p class="admin-description">등록된 관리자 계정으로 로그인해 주세요.</p>
+          <form id="login-form" class="admin-login-form">
+            <div class="admin-field">
+              <label for="login-email">이메일</label>
+              <input id="login-email" name="email" type="email" autocomplete="username" required />
+            </div>
+            <div class="admin-field">
+              <label for="login-password">비밀번호</label>
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            </div>
+            <button id="login-button" class="admin-button admin-login-button" type="button">로그인 <span aria-hidden="true">→</span></button>
+          </form>
+          <p id="login-status" class="status-message" role="status" aria-live="polite"></p>
+          <p class="admin-auth-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1Zm2 0h6V7a3 3 0 0 0-6 0v3Zm3 4a1.5 1.5 0 0 0-1 2.6V19h2v-2.4a1.5 1.5 0 0 0-1-2.6Z" /></svg>관리자만 내용을 바꿀 수 있어요.</p>
+        </div>
+      </section>
+
+      <div id="admin-panel" hidden>
+        <div class="admin-workspace-heading">
+          <div><p class="admin-overline">PORTFOLIO MANAGER</p><h1 class="admin-page-title">나의 포트폴리오 관리</h1><p class="admin-description">저장한 내용은 방문자 화면에 반영됩니다.</p></div>
+          <button id="refresh-admin-button" class="admin-button admin-button-secondary" type="button"><span aria-hidden="true">↻</span> 새로 불러오기</button>
+        </div>
+        <p id="admin-status" class="status-message admin-workspace-status" role="status" aria-live="polite"></p>
+        <nav class="admin-section-nav" aria-label="관리할 내용"><a href="#profile-section">프로필</a><a href="#projects-section">포트폴리오 카드</a><a href="#likes-section">좋아요</a><a href="#guestbook-section">방명록</a></nav>
+
+        <section id="profile-section" class="admin-section" aria-labelledby="profile-heading">
+          <header class="admin-section-heading"><div><p class="admin-overline">ABOUT ME</p><h2 id="profile-heading">프로필</h2><p class="admin-description">사진과 소개 글, 연락처를 수정해 주세요.</p></div><span class="admin-section-number" aria-hidden="true">01</span></header>
+          <form id="profile-form">
+            <div class="admin-profile-layout">
+              <div class="admin-photo-column">
+                <label class="admin-field-label" for="profile-photo-file">프로필 사진</label>
+                <div class="admin-profile-photo-frame">
+                  <img id="profile-preview" alt="프로필 사진 미리보기" hidden />
+                  <div id="profile-photo-placeholder" class="admin-photo-placeholder"><svg viewBox="0 0 160 200" aria-hidden="true"><circle cx="80" cy="75" r="30" /><path d="M22 188v-18a58 58 0 0 1 116 0v18Z" /></svg><span>프로필 사진</span></div>
+                </div>
+                <input id="profile-photo-file" class="admin-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" aria-describedby="profile-photo-help" />
+                <p id="profile-photo-help" class="admin-field-help">PNG, JPG, WebP, GIF · 최대 10MB<br />사진은 프로필 저장 시 함께 올려요.</p>
+                <div class="admin-field admin-photo-url"><label for="profile-photo-url">프로필 사진 주소</label><input id="profile-photo-url" name="photo_url" type="url" inputmode="url" /><p class="admin-field-help">사진을 고르면 저장할 때 자동으로 채워져요.</p></div>
+              </div>
+              <div class="admin-profile-fields">
+                <div class="admin-form-grid">
+                  <div class="admin-field"><label for="profile-name">이름</label><input id="profile-name" name="name" type="text" autocomplete="name" required /></div>
+                  <div class="admin-field"><label for="profile-title">직함</label><input id="profile-title" name="title" type="text" /></div>
+                  <div class="admin-field"><label for="profile-career-badge">경력 배지</label><input id="profile-career-badge" name="career_badge" type="text" /></div>
+                  <div class="admin-field"><label for="profile-location">위치</label><input id="profile-location" name="location" type="text" /></div>
+                  <div class="admin-field"><label for="profile-email">이메일</label><input id="profile-email" name="email" type="email" autocomplete="email" /></div>
+                  <div class="admin-field"><label for="profile-phone">연락처</label><input id="profile-phone" name="phone" type="tel" autocomplete="tel" /></div>
+                  <div class="admin-field admin-field-full"><label for="profile-headline">한 줄 소개 제목</label><input id="profile-headline" name="headline" type="text" /><p class="admin-field-help">소개에 이름을 넣으면 방문자 화면에서 파란색으로 강조돼요.</p></div>
+                  <div class="admin-field admin-field-full"><label for="profile-intro">소개 글</label><textarea id="profile-intro" name="intro" rows="4"></textarea></div>
+                  <div class="admin-field"><label for="profile-education">EDUCATION · 학력</label><textarea id="profile-education" name="education" rows="4" aria-describedby="profile-education-help"></textarea><p id="profile-education-help" class="admin-field-help">항목마다 줄을 바꿔 적어 주세요.</p></div>
+                  <div class="admin-field"><label for="profile-experience">EXPERIENCE · 경력</label><textarea id="profile-experience" name="experience" rows="4" aria-describedby="profile-experience-help"></textarea><p id="profile-experience-help" class="admin-field-help">항목마다 줄을 바꿔 적어 주세요.</p></div>
+                  <div class="admin-field admin-field-full"><label for="profile-skills">SKILLS &amp; TOOLS · 기술과 도구</label><textarea id="profile-skills" name="skills" rows="2" aria-describedby="profile-skills-help"></textarea><p id="profile-skills-help" class="admin-field-help">쉼표 또는 줄바꿈으로 구분해 주세요.</p></div>
+                  <div class="admin-field admin-field-full"><label for="profile-quote">맨 아래 한 줄 인용</label><textarea id="profile-quote" name="quote" rows="2"></textarea></div>
+                  <div class="admin-field"><label for="profile-id">프로필 번호</label><input id="profile-id" name="id" type="text" value="1" readonly /></div>
+                  <div class="admin-field"><label for="profile-updated-at">최근 수정 시각 · 자동 기록</label><input id="profile-updated-at" name="updated_at" type="text" readonly /></div>
+                </div>
+              </div>
+            </div>
+            <div class="admin-form-footer"><p id="profile-status" class="status-message" role="status" aria-live="polite"></p><div class="admin-profile-actions"><button id="profile-delete-button" class="admin-button admin-button-danger" type="button" disabled>프로필 삭제</button><button id="profile-save-button" class="admin-button" type="button">프로필 저장 <span aria-hidden="true">↗</span></button></div></div>
+          </form>
+        </section>
+
+        <section id="projects-section" class="admin-section" aria-labelledby="projects-heading">
+          <header class="admin-section-heading"><div><p class="admin-overline">PORTFOLIO HIGHLIGHTS</p><h2 id="projects-heading">포트폴리오 카드</h2><p class="admin-description">프로젝트를 추가하고, 보여 줄 순서를 정해 주세요.</p></div><span class="admin-section-number" aria-hidden="true">02</span></header>
+          <div class="admin-project-layout">
+            <div class="admin-project-list-panel">
+              <div class="admin-subheading-row"><h3>프로젝트 목록</h3><button id="project-add-button" class="admin-button admin-button-secondary admin-button-small" type="button"><span aria-hidden="true">＋</span> 카드 추가</button></div>
+              <p class="admin-field-help">방문자 화면에 보이는 순서입니다.</p>
+              <div id="projects-list" class="admin-project-list"></div>
+            </div>
+            <div class="admin-project-editor">
+              <h3 id="project-editor-title" class="admin-editor-title">새 포트폴리오 카드</h3>
+              <form id="project-form">
+                <input name="id" type="hidden" />
+                <div class="admin-form-grid">
+                  <div class="admin-field"><label for="project-number">카드 번호</label><input id="project-number" name="number" type="text" /></div>
+                  <div class="admin-field"><label for="project-category">분류</label><input id="project-category" name="category" type="text" /></div>
+                  <div class="admin-field admin-field-full"><label for="project-title">프로젝트 제목 <span class="admin-required">필수</span></label><input id="project-title" name="title" type="text" required /></div>
+                  <div class="admin-field admin-field-full"><label for="project-description">설명</label><textarea id="project-description" name="description" rows="3"></textarea></div>
+                  <div class="admin-field admin-field-full"><label for="project-tags">태그</label><input id="project-tags" name="tags" type="text" aria-describedby="project-tags-help" /><p id="project-tags-help" class="admin-field-help">태그 사이에 쉼표를 넣어 주세요.</p></div>
+                  <div class="admin-field admin-field-full">
+                    <label for="project-thumbnail-file">썸네일 이미지</label>
+                    <div class="admin-thumbnail-frame"><div class="browser-toolbar" aria-hidden="true"><i></i><i></i><i></i></div><div class="admin-thumbnail-content"><img id="project-thumbnail-preview" alt="프로젝트 썸네일 미리보기" hidden /><div id="project-thumbnail-placeholder" class="admin-thumbnail-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" /><circle cx="8" cy="8" r="1.5" /><path d="m3 17 5-5 4 4 3-3 6 6" /></svg><span>이미지를 골라 주세요</span></div></div></div>
+                    <input id="project-thumbnail-file" class="admin-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" aria-describedby="project-thumbnail-help" />
+                    <p id="project-thumbnail-help" class="admin-field-help">PNG, JPG, WebP, GIF · 최대 10MB</p>
+                  </div>
+                  <div class="admin-field admin-field-full"><label for="project-thumbnail-url">썸네일 이미지 주소</label><input id="project-thumbnail-url" name="thumbnail_url" type="url" inputmode="url" /><p class="admin-field-help">이미지를 고르면 저장할 때 자동으로 채워져요.</p></div>
+                  <div class="admin-field admin-field-full"><label for="project-attachment-file">첨부 파일</label><input id="project-attachment-file" class="admin-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif,application/pdf" aria-describedby="project-attachment-help" /><p id="project-attachment-help" class="admin-field-help">이미지 또는 PDF · 최대 10MB<br />카드를 누르면 이 파일이 새 탭에서 열려요.</p><a id="project-attachment-link" class="admin-attachment-link" target="_blank" rel="noopener noreferrer" hidden>현재 첨부 파일 보기 ↗</a></div>
+                  <div class="admin-field admin-field-full"><label for="project-file-url">첨부 파일 주소</label><input id="project-file-url" name="file_url" type="url" inputmode="url" /><p class="admin-field-help">파일을 고르면 저장할 때 자동으로 채워져요.</p></div>
+                  <div class="admin-field admin-field-full"><label for="project-sort-order">표시 순서</label><input id="project-sort-order" name="sort_order" type="number" step="1" value="0" required /><p class="admin-field-help">작은 숫자가 먼저 보여요. 목록의 위·아래 버튼으로도 옮길 수 있어요.</p></div>
+                </div>
+                <p id="project-status" class="status-message" role="status" aria-live="polite"></p>
+                <div class="admin-editor-actions"><button id="project-cancel-button" class="admin-button admin-button-secondary" type="button">취소</button><button id="project-save-button" class="admin-button" type="button">카드 저장 <span aria-hidden="true">↗</span></button></div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div class="admin-bottom-grid">
+          <section id="likes-section" class="admin-section" aria-labelledby="likes-heading">
+            <header class="admin-section-heading"><div><p class="admin-overline">LIKES</p><h2 id="likes-heading">좋아요</h2><p class="admin-description">카드별로 받은 좋아요를 확인하세요.</p></div><span class="admin-section-number" aria-hidden="true">03</span></header>
+            <p id="likes-status" class="status-message" role="status" aria-live="polite"></p>
+            <div id="likes-list" class="admin-likes-list"></div>
+          </section>
+          <section id="guestbook-section" class="admin-section" aria-labelledby="guestbook-heading">
+            <header class="admin-section-heading"><div><p class="admin-overline">GUESTBOOK</p><h2 id="guestbook-heading">방명록</h2><p class="admin-description">최근에 남긴 글부터 보여 드려요.</p></div><span class="admin-section-number" aria-hidden="true">04</span></header>
+            <p id="admin-guestbook-status" class="status-message" role="status" aria-live="polite"></p>
+            <ul id="admin-guestbook-list" class="admin-guestbook-list" aria-label="최신순 방명록"></ul>
+          </section>
+        </div>
+      </div>
+      <footer class="admin-footer">PORTFOLIO <span aria-hidden="true">·</span> 나의 이야기를 차곡차곡.</footer>
+      <noscript><p class="noscript-notice">관리자 페이지를 사용하려면 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+    </main>
+  </body>
+</html>
