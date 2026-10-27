@@ -321,10 +321,13 @@
   async function verifyAdmin(epoch) {
     const { data: user } = await authenticated('/auth/v1/user', {}, epoch, true);
     if (!user || typeof user.id !== 'string') throw new PageError('로그인 계정을 확인하지 못했습니다. 다시 로그인해 주세요.');
-    const { data: admins } = await db('admins', { select: 'user_id', user_id: `eq.${user.id}`, limit: 1 }, {}, epoch, true);
+    // 데이터베이스와 보관함의 접근 규칙이 사용하는 함수로 같은 권한을 확인합니다.
+    const { data: isAdmin } = await authenticated('/rest/v1/rpc/resume_is_admin', {}, epoch, true);
     assertCurrent(epoch);
-    if (!Array.isArray(admins) || !admins.some((admin) => admin.user_id === user.id)) {
-      resetSession('관리자만 쓸 수 있어요', true);
+    if (isAdmin !== true) {
+      const email = typeof user.email === 'string' ? user.email : elements.loginEmail.value.trim();
+      resetSession(`관리자만 쓸 수 있어요. ${email ? email + ' 계정의 ' : ''}관리자 등록을 Supabase에서 확인해 주세요.`, true);
+      elements.loginEmail.value = email;
       throw new PageError('', { stale: true });
     }
     state.user = user;
